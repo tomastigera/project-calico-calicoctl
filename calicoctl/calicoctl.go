@@ -63,6 +63,8 @@ Description:
 		os.Exit(1)
 	}
 
+	errfmt := "%s"
+
 	if logLevel := arguments["--log-level"]; logLevel != nil {
 		parsedLogLevel, err := log.ParseLevel(logLevel.(string))
 		if err != nil {
@@ -72,6 +74,9 @@ Description:
 		} else {
 			log.SetLevel(parsedLogLevel)
 			log.Infof("Log level set to %v", parsedLogLevel)
+		}
+		if parsedLogLevel == log.DebugLevel {
+			errfmt = "%+v"
 		}
 	}
 
@@ -107,7 +112,7 @@ Description:
 		}
 
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
+			fmt.Fprintf(os.Stderr, errfmt+"\n", err)
 			os.Exit(1)
 		}
 	}

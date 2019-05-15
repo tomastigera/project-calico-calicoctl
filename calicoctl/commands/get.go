@@ -24,6 +24,8 @@ import (
 	"github.com/projectcalico/calicoctl/calicoctl/commands/constants"
 
 	log "github.com/sirupsen/logrus"
+
+	"github.com/pkg/errors"
 )
 
 func Get(args []string) error {
@@ -178,7 +180,7 @@ Description:
 	if results.fileInvalid {
 		return fmt.Errorf("Failed to execute command: %v", results.err)
 	} else if results.err != nil {
-		return fmt.Errorf("Failed to get resources: %v", results.err)
+		return errors.WithMessage(results.err, "Failed to get resources")
 	}
 
 	err = rp.print(results.client, results.resources)
@@ -186,10 +188,15 @@ Description:
 		return err
 	}
 
+	errfmt := "%s"
+	if log.IsLevelEnabled(log.DebugLevel) {
+		errfmt = "%+v"
+	}
+
 	if len(results.resErrs) > 0 {
 		var errStr string
 		for i, err := range results.resErrs {
-			errStr += err.Error()
+			errStr += fmt.Sprintf(errfmt, err)
 			if (i + 1) != len(results.resErrs) {
 				errStr += "\n"
 			}

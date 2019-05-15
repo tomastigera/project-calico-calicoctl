@@ -17,7 +17,6 @@ package resourcemgr
 import (
 	"bytes"
 	"context"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -25,6 +24,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/projectcalico/calicoctl/calicoctl/commands/argutils"
 	yamlsep "github.com/projectcalico/calicoctl/calicoctl/util/yaml"
 	yaml "github.com/projectcalico/go-yaml-wrapper"
@@ -316,7 +316,7 @@ func GetResourcesFromArgs(args map[string]interface{}) ([]ResourceObject, error)
 	for _, name := range names {
 		res, ok := kindToRes[strings.ToLower(kind)]
 		if !ok {
-			return nil, fmt.Errorf("resource type '%s' is not supported", kind)
+			return nil, errors.Errorf("resource type '%s' is not supported", kind)
 		}
 		res = res.DeepCopyObject().(ResourceObject)
 		res.(ResourceObject).GetObjectMeta().SetName(name)

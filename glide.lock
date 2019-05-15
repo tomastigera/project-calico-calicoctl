@@ -1,5 +1,5 @@
-hash: ea5f965be9fba66900e221ec9ddc70b237da2f7a4725af3c17e50c60fb836e5a
-updated: 2019-05-07T21:28:11.157193762Z
+hash: 5c63b134081b7199d7c571f98986749757f7558f5076d195d2719d47fba4adf3
+updated: 2019-05-14T21:57:19.948981564-07:00
 imports:
 - name: cloud.google.com/go
   version: 3b1ae45394a234c385be014e9a488f2bb6eef821
@@ -558,4 +558,6 @@ imports:
   - util/integer
   - util/jsonpath
   - util/retry
-testImports: []
+testImports:
+- name: github.com/pkg/errors
+  version: 27936f6d90f9c8e1145f11ed52ffffbfdb9e0af7
